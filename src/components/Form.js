@@ -1,26 +1,34 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
 
-const Form = () => {
+const Form = ({ handleSubmit }) => {
+  const [formData, setFormData] = useState({ name: '', URL: '' });
+
   const handleChange = (event) => {
-    /*
-            TODO - Logic for changing state based on form changes
-        */
-  }
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
 
-  const onFormSubmit = (event) => {
-    // to prevent page reload on form submit
-    event.preventDefault()
-
-    /*
-            TODO - Logic for calling props to handle submission and setting state changes
-        */
-  }
+  const submitForm = (event) => {
+    event.preventDefault();
+    handleSubmit(formData);
+    setFormData({ name: '', URL: '' });
+  };
 
   return (
-    <form>
-      {/* TODO - Logic for returning a form element with labels and inputs for link name and URL */}
+    <form onSubmit={submitForm}>
+      <label htmlFor="name">Name:</label>
+      <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+      <br />
+      <label htmlFor="URL">URL:</label>
+      <input type="text" id="URL" name="URL" value={formData.URL} onChange={handleChange} />
+      <br />
+      <button type="submit" onClick={submitForm}>Submit</button>
     </form>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;
+
